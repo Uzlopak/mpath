@@ -361,6 +361,48 @@ describe('mpath', function() {
 
     });
 
+    describe('with `createMissing`', function () {
+
+      it('create Objects in empty Object', function(done) {
+        const testObject = {};
+
+        assert.deepEqual(
+          { a: { 3: { 3: 3 } } }
+          , mpath.set('a.3.3', 3, testObject, undefined, undefined, undefined, true)
+        );
+        done();
+      });
+
+      it('create Objects in attribute of Object', function(done) {
+        const testObject = { a: {} };
+
+        assert.deepEqual(
+          { a: { 3: { 3: 3 } } }
+          , mpath.set('a.3.3', 3, testObject, undefined, undefined, undefined, true)
+        );
+        done();
+      });
+
+      it('create Objects in attribute in Array of Objects', function(done) {
+        const testObject = { a: [] };
+
+        assert.deepEqual(
+          { a: [, , , { "3": 3}] }
+          , mpath.set('a.3.3', 3, testObject, undefined, undefined, undefined, true)
+        );
+        done();
+      });
+      it('create Objects in attribute in Array of Objects', function(done) {
+        const testObject = { a: [{}, {}, {}] };
+
+        assert.deepEqual(
+          { a: [{}, {}, {}, { "3": 3}] }
+          , mpath.set('a.3.3', 3, testObject, undefined, undefined, undefined, true)
+        );
+        done();
+      });
+    })
+
     describe('with `special`', function() {
       describe('that is a string', function() {
         it('works', function(done) {
